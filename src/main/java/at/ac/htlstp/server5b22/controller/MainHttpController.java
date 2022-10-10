@@ -10,7 +10,7 @@ import java.util.Date;
 @Controller
 public class MainHttpController {
 
-    @RequestMapping("/info")
+    @RequestMapping(Endpoint.info)
     public String info(Model model) {
         model.addAttribute("datum",new Date());
         return "info";
