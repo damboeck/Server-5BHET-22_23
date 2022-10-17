@@ -1,0 +1,30 @@
+
+version: "3.6"
+
+#networks:
+#  nw-intern:
+#    external: true
+
+#volumes:
+#  meinvolume:
+#    name: meinvolume
+#    external: true
+
+services:
+  wid:
+    image: server5b22
+    environment:
+      - VAR=x
+#    networks:
+#      - nw-intern
+    ports:
+      - "${PORT:-8080}:8080"
+    deploy:
+      resources:
+        limits:
+          memory: 400M
+#    volumes:
+#      - meinvolume:/vol
+#    hostname: ${MYSQL_HOST}
+#    container_name: ${MYSQL_HOST}
+    restart: always
