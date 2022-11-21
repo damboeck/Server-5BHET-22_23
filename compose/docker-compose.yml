@@ -1,0 +1,43 @@
+
+# Starten des Docker-Containers aus dem gleichen Verzeichnis mit:
+# docker-compose up -d --build
+
+# Datenbank
+version: "3.6"
+
+networks:
+  my-network-local:
+
+services:
+  mysql-local:
+    image: mysql/mysql-server:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    networks:
+      - my-network-local
+      - nw-docker
+    volumes:
+      # Volume für die Datenbank
+      - ${MYSQL_DATABASE_PATH}:/var/lib/mysql
+      # Volume für Datenbank-Dumps
+      - ${MYSQL_DUMP_PATH}:/opt/dump
+    ports:
+      - "${MYSQL_PORT}:3306"
+    hostname: mysql
+    container_name: mysql
+    restart: always
+
+  mysqladmin-local:
+    image: phpmyadmin:latest
+    networks:
+      - my-network-local
+    environment:
+      - PMA_HOST=mysql-local
+    ports:
+      - "${PHP_MYADMIN_PORT}:80"
+    depends_on:
+      - mysql-local
+    hostname: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+
